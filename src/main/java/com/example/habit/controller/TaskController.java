@@ -2,6 +2,7 @@ package com.example.habit.controller;
 
 import com.example.habit.model.Task;
 import com.example.habit.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class TaskController {
     }
 
     @RequestMapping(value="/public/tasks",method= RequestMethod.POST)
-    public String createTask(@RequestBody Task task) {
+    public String createTask(@Valid @RequestBody Task task) {
         Boolean bool=taskService.createTask(task);
         if (bool) return "task created successfully";
         return "task already exists";
