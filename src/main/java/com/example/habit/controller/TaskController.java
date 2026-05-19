@@ -1,5 +1,6 @@
 package com.example.habit.controller;
 
+import com.example.habit.dto.TaskRequestDTO;
 import com.example.habit.model.Task;
 import com.example.habit.service.TaskService;
 import jakarta.validation.Valid;
@@ -27,7 +28,11 @@ public class TaskController {
     }
 
     @RequestMapping(value="/public/tasks",method= RequestMethod.POST)
-    public String createTask(@Valid @RequestBody Task task) {
+    public String createTask(@Valid @RequestBody TaskRequestDTO dto) {
+        Task task=new Task();
+        task.setTaskName(dto.getTaskName());
+        task.setTaskCom(false);
+        task.setDaysCom(0);
         Boolean bool=taskService.createTask(task);
         if (bool) return "task created successfully";
         return "task already exists";
