@@ -1,6 +1,7 @@
 package com.example.habit.controller;
 
 import com.example.habit.dto.TaskRequestDTO;
+import com.example.habit.dto.TaskStatsDTO;
 import com.example.habit.model.Task;
 import com.example.habit.service.TaskService;
 import jakarta.validation.Valid;
@@ -59,18 +60,8 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/tasks/completion-percentage")
-    public double getCompletionPercentage() {
-        return taskService.getCompletionPercentage();
-    }
-
-    @GetMapping("/tasks/active")
-    public List<Task> getActiveHabits() {
-        return taskService.getActiveHabits();
-    }
-
-    @GetMapping("/tasks/longest-streak")
-    public Integer getLongestStreak() {
-        return taskService.getLongestStreak();
+    @GetMapping("/tasks/stats")
+    public TaskStatsDTO getTaskStats() {
+        return taskService.getTaskStats();
     }
 }
