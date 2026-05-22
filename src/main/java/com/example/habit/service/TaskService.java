@@ -1,5 +1,6 @@
 package com.example.habit.service;
 
+import com.example.habit.dto.TaskStatsDTO;
 import com.example.habit.model.Task;
 
 import java.util.List;
@@ -12,9 +13,5 @@ public interface TaskService {
 
     Task updateTask(Task task, Long taskId);
 
-    double getCompletionPercentage();
-
-    List<Task> getActiveHabits();
-
-    Integer getLongestStreak();
+    public TaskStatsDTO getTaskStats();
 }

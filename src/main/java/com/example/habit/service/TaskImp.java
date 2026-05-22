@@ -1,5 +1,6 @@
 package com.example.habit.service;
 
+import com.example.habit.dto.TaskStatsDTO;
 import com.example.habit.model.Task;
 import com.example.habit.repository.TaskRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,33 +51,41 @@ public class TaskImp implements TaskService{
         return task3;
     }
 
-    public double getCompletionPercentage() {
-
+    @Override
+    public TaskStatsDTO getTaskStats() {
         List<Task> tasks = taskRepo.findAll();
 
-        if(tasks.isEmpty()) return 0;
+        TaskStatsDTO stats = new TaskStatsDTO();
 
+        // completion percentage
         long completed = tasks.stream()
                 .filter(Task::getTaskCom)
                 .count();
 
-        return ((double) completed / tasks.size()) * 100;
-    }
+        double completionPercentage = 0;
 
-    public List<Task> getActiveHabits() {
+        if (!tasks.isEmpty()) {
+            completionPercentage =
+                    ((double) completed / tasks.size()) * 100;
+        }
 
-        return taskRepo.findAll()
-                .stream()
+        // active habits
+        int activeHabits = (int) tasks.stream()
                 .filter(task -> !task.getTaskCom())
-                .toList();
-    }
+                .count();
 
-    public Integer getLongestStreak() {
-
-        return taskRepo.findAll()
-                .stream()
+        // longest streak
+        int longestStreak = tasks.stream()
                 .map(Task::getDaysCom)
                 .max(Integer::compareTo)
                 .orElse(0);
+
+        // set DTO values
+        stats.setCompletionPercentage(completionPercentage);
+        stats.setActiveHabits(activeHabits);
+        stats.setLongestStreak(longestStreak);
+
+        return stats;
     }
-}
+    }
+
